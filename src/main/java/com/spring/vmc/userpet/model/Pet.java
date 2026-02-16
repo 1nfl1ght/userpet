@@ -1,25 +1,27 @@
 package com.spring.vmc.userpet.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Pet {
 
    private Long id;
+   @NotBlank
    private String name;
+   @NotNull
    private Long userId;
 
-    public Pet(String name, Long userId) {
+    public Pet(Long id, String name, Long userId) {
+        this.id = id;
         this.name = name;
         this.userId = userId;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

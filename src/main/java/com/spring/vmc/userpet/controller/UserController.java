@@ -1,6 +1,5 @@
 package com.spring.vmc.userpet.controller;
 
-import com.spring.vmc.userpet.exception.ResourceNotFoundException;
 import com.spring.vmc.userpet.model.User;
 import com.spring.vmc.userpet.service.UserService;
 import jakarta.validation.Valid;
