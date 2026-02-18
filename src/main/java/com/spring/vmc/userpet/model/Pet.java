@@ -8,11 +8,14 @@ import java.util.List;
 
 public class Pet {
 
-   private Long id;
-   @NotBlank
-   private String name;
-   @NotNull
-   private Long userId;
+    private Long id;
+    @NotBlank
+    private String name;
+    @NotNull
+    private Long userId;
+
+    public Pet() {
+    }
 
     public Pet(Long id, String name, Long userId) {
         this.id = id;

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class PetController {
 
@@ -27,6 +29,13 @@ public class PetController {
                 .body(pet);
     }
 
+    @GetMapping("/pets")
+    public ResponseEntity<List<Pet>> getAllPets() {
+        List<Pet> pets = petService.getAllPets();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(pets);
+    }
+
     @PostMapping("/pets")
     public ResponseEntity<Pet> createPet(@RequestBody @Valid Pet pet) {
         Pet createdPet = petService.createPet(pet);
@@ -35,13 +44,13 @@ public class PetController {
     }
 
     @PutMapping("/pets/{id}")
-    public ResponseEntity<Pet> updatePet(@RequestBody @Valid Pet pet, @PathVariable("io") Long id) {
+    public ResponseEntity<Pet> updatePet(@RequestBody @Valid Pet pet, @PathVariable("id") Long id) {
         Pet updatedPet = petService.updatePet(pet, id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(updatedPet);
     }
 
-    @DeleteMapping("/pets")
+    @DeleteMapping("/pets/{id}")
     public ResponseEntity<Pet> deletePetById(@PathVariable("id") Long id) {
         petService.deletePetById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT)

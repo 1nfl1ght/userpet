@@ -5,6 +5,8 @@ import com.spring.vmc.userpet.repository.PetRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PetService {
 
@@ -29,5 +31,9 @@ public class PetService {
 
     public void deletePetById(Long id) {
         petRepository.deletePetById(id);
+    }
+
+    public List<Pet> getAllPets() {
+        return petRepository.getAllPets();
     }
 }

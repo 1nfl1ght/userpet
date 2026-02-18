@@ -4,6 +4,7 @@ import com.spring.vmc.userpet.model.User;
 import com.spring.vmc.userpet.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +31,9 @@ public class UserService {
 
     public void delete(Long id) {
         userRepository.delete(id);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.getAllUsers();
     }
 }

@@ -19,12 +19,15 @@ public class User {
     private Integer age;
     private List<Pet> pets;
 
-    public User(Long id, String name, String email, Integer age, List<Pet> pets) {
+    public User() {
+    }
+
+    public User(Long id, String name, String email, Integer age) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.age = age;
-        this.pets = pets;
+        this.pets = new ArrayList<>();
     }
 
     public Long getId() {

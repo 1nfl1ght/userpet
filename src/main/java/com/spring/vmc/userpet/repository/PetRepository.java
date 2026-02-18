@@ -35,7 +35,7 @@ public class PetRepository {
         );
         user.getPets().add(createdPet);
         pets.put(newId, createdPet);
-        return pet;
+        return createdPet;
     }
 
     public Pet updatePet(Pet pet, Long id) {
@@ -47,8 +47,13 @@ public class PetRepository {
             newUser.getPets().add(pet);
             pets.put(id, pet);
         }
-        pets.put(id, pet);
-        return pet;
+        Pet newPet = new Pet(
+                id,
+                pet.getName(),
+                pet.getUserId()
+        );
+        pets.put(id, newPet);
+        return newPet;
     }
 
     public void deletePetById(Long id) {
@@ -58,5 +63,9 @@ public class PetRepository {
         User user = userRepository.getUserById(pets.get(id).getUserId());
         user.getPets().removeIf(pet -> Objects.equals(pet.getId(), id));
         pets.remove(id);
+    }
+
+    public List<Pet> getAllPets() {
+        return pets.values().stream().toList();
     }
 }

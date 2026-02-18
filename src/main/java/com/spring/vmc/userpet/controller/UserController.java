@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class UserController {
 
@@ -26,6 +28,14 @@ public class UserController {
         User user = userService.getUserById(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(user);
+    }
+
+    @GetMapping("users")
+    public ResponseEntity<List<User>> getAllUsers() {
+        log.info("getAllUsers method started");
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(users);
     }
 
     @PostMapping("/users")

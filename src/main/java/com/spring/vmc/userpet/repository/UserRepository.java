@@ -32,8 +32,7 @@ public class UserRepository {
                 newId,
                 user.getName(),
                 user.getEmail(),
-                user.getAge(),
-                user.getPets()
+                user.getAge()
         );
         users.put(newId, createdUser);
         return createdUser;
@@ -44,11 +43,22 @@ public class UserRepository {
         userToUpdate.setName(user.getName());
         userToUpdate.setEmail(user.getEmail());
         userToUpdate.setAge(user.getAge());
-        userToUpdate.setPets(user.getPets());
         return users.put(id, userToUpdate);
     }
 
     public void delete(Long id) {
-        Optional.ofNullable(users.remove(id)).orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
+        List<Pet> pets = Optional.ofNullable(
+                        users.get(id)
+                )
+                .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"))
+                .getPets();
+        if (!pets.isEmpty()) {
+            pets.forEach(pet -> pet.setUserId(null));
+        }
+        users.remove(id);
+    }
+
+    public List<User> getAllUsers() {
+        return users.values().stream().toList();
     }
 }
