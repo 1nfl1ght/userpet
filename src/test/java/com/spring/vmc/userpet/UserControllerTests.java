@@ -1,7 +1,8 @@
 package com.spring.vmc.userpet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spring.vmc.userpet.model.User;
+import com.spring.vmc.userpet.model.dto.UserDto;
+import com.spring.vmc.userpet.model.entity.User;
 import com.spring.vmc.userpet.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -33,30 +36,30 @@ class UserControllerTests {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    private User testUser;
+    private UserDto testUser;
 
     @BeforeEach
     void setUp() {
-        testUser = new User(1L, "Pavel", "test@email.com", 25);
+        testUser = new UserDto(1L, "Pavel", "test@email.com", 25);
     }
 
     @Test
     void successCreateUser() throws Exception {
-        User user = new User(
+        UserDto user = new UserDto(
                 null,
                 "Max",
                 "email@email.ru",
                 32
         );
 
-        User savedUser = new User(
+        UserDto savedUser = new UserDto(
                 1L,
                 "Max",
                 "email@email.ru",
                 32
         );
 
-        when(userService.createUser(any(User.class))).thenReturn(savedUser);
+        when(userService.createUser(any(UserDto.class))).thenReturn(savedUser);
 
         String createdUserJson = mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -66,7 +69,7 @@ class UserControllerTests {
                 .getResponse()
                 .getContentAsString();
 
-        User userResponse = mapper.readValue(createdUserJson, User.class);
+        UserDto userResponse = mapper.readValue(createdUserJson, UserDto.class);
 
         Assertions.assertEquals(user.getName(), userResponse.getName());
         Assertions.assertNotNull(userResponse.getId());
@@ -87,14 +90,14 @@ class UserControllerTests {
 
     @Test
     void successUpdateUser() throws Exception {
-        User updatedUser = new User(
+        UserDto updatedUser = new UserDto(
                 1L,
                 "Pasha",
                 "test@mail.ru",
                 25
         );
 
-        when(userService.updateUser(eq(1L), any(User.class))).thenReturn(updatedUser);
+        when(userService.updateUser(eq(1L), any(UserDto.class))).thenReturn(updatedUser);
 
         mockMvc.perform(put("/users/{id}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -117,7 +120,7 @@ class UserControllerTests {
 
     @Test
     void unsuccessCreateUserWithEmptyName() throws Exception {
-        User user = new User(
+        UserDto user = new UserDto(
                 null,
                 null,
                 "email@mail.ru",

@@ -1,17 +1,12 @@
-package com.spring.vmc.userpet.model;
+package com.spring.vmc.userpet.model.entity;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Pet {
 
     private Long id;
-    @NotBlank
     private String name;
-    @NotNull
     private Long userId;
 
     public Pet() {

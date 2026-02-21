@@ -1,10 +1,9 @@
 package com.spring.vmc.userpet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spring.vmc.userpet.model.Pet;
-import com.spring.vmc.userpet.model.User;
+import com.spring.vmc.userpet.model.dto.PetDto;
+import com.spring.vmc.userpet.model.entity.Pet;
 import com.spring.vmc.userpet.service.PetService;
-import com.spring.vmc.userpet.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,28 +33,28 @@ public class PetControllerTests {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    private Pet testPet;
+    private PetDto testPet;
 
     @BeforeEach
     void setUp() {
-        testPet = new Pet(1L, "Dog", 1L);
+        testPet = new PetDto(1L, "Dog", 1L);
     }
 
     @Test
     void successCreatePet() throws Exception {
-        Pet pet = new Pet(
+        PetDto pet = new PetDto(
                 1L,
                 "Cat",
                 1L
         );
 
-        Pet savedPet = new Pet(
+        PetDto savedPet = new PetDto(
                 1L,
                 "Cat",
                 1L
         );
 
-        when(petService.createPet(any(Pet.class))).thenReturn(savedPet);
+        when(petService.createPet(any(PetDto.class))).thenReturn(savedPet);
 
         String createdPetJson = mockMvc.perform(post("/pets")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -65,7 +64,7 @@ public class PetControllerTests {
                 .getResponse()
                 .getContentAsString();
 
-        Pet petResponse = mapper.readValue(createdPetJson, Pet.class);
+        PetDto petResponse = mapper.readValue(createdPetJson, PetDto.class);
 
         Assertions.assertEquals(pet.getName(), petResponse.getName());
         Assertions.assertNotNull(petResponse.getId());
@@ -85,13 +84,13 @@ public class PetControllerTests {
 
     @Test
     void successUpdatePet() throws Exception {
-        Pet updatedPet = new Pet(
+        PetDto updatedPet = new PetDto(
                 1L,
                 "Cat",
                 1L
         );
 
-        when(petService.updatePet(any(Pet.class), eq(1L))).thenReturn(updatedPet);
+        when(petService.updatePet(eq(1L), any(PetDto.class))).thenReturn(updatedPet);
 
         mockMvc.perform(put("/pets/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -114,7 +113,7 @@ public class PetControllerTests {
 
     @Test
     void unsuccessCreatePetWithEmptyName() throws Exception {
-        Pet pet = new Pet(
+        PetDto pet = new PetDto(
                 null,
                 null,
                 1L
